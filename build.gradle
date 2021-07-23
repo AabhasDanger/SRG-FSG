@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://jitpack.io"
+    }
+}
+
+dependencies {
+    implementation 'com.github.hube12:SEED:master-SNAPSHOT'
+    implementation 'com.github.KaptainWutax:FeatureUtils:993693c27a1d4b9c417746119952d1b1bc4ba81b'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+mainClassName = 'Main'
+
+test {
+    useJUnitPlatform()
+}
+
