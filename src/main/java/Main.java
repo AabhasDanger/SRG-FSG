@@ -12,6 +12,17 @@ import kaptainwutax.terrainutils.terrain.OverworldTerrainGenerator;
 import java.util.Random;
 
 public class Main {
+    public class RandomChecker {
+        public static boolean isRandom(long worldSeed) {
+            long a = worldSeed;
+            long b = 18218081, c = 1L << 48, d = 7847617,
+                    e = ((((d * ((24667315 * (a >>> 32) + b * (int) a + 67552711) >> 32)
+                            - b * ((-4824621 * (a >>> 32) + d * (int) a + d) >> 32)) - 11) * 0xdfe05bcb1365L) % c);
+            return ((((0x5deece66dl * e + 11) % c) >> 16) << 32)
+                    + (int) (((0xbb20b4600a69L * e + 0x40942de6baL) % c) >> 16) == a;
+        }
+    }
+
     public static void main(String[] Args){
         ChunkRand rand = new ChunkRand();
         MCVersion mc = MCVersion.v1_16_1;
@@ -27,7 +38,7 @@ public class Main {
         long worldSeed = 0;
         while(loop){
 
-            strSeed = new Random().nextLong();
+            strSeed = new Random().nextLong() + 1;
 
             CPos villageCoords = (village.getInRegion(strSeed,0,0,rand)==null) ? (new CPos(1000,1000)) : (village.getInRegion(strSeed,0,0,rand));
             CPos ruinedPortalCoords = (ruinedPortal.getInRegion(strSeed,0,0,rand)==null) ? (new CPos(1000,1000)) : (ruinedPortal.getInRegion(strSeed,0,0,rand));
@@ -60,6 +71,9 @@ public class Main {
                 if(!(bastionRemnant1.canSpawn(bastionRemnant1Coords,nbs))) continue;
                 if(!(bastionRemnant2.canSpawn(bastionRemnant2Coords,nbs))) continue;
                 if(!(fortress.canSpawn(fortressQuadran,nbs))) continue;
+
+                boolean random = RandomChecker.isRandom(worldSeed);
+                if(random) continue;
 
                 loop = false;
                 break;
